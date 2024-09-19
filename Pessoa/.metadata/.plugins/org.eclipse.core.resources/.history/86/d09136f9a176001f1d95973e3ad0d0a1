@@ -1,0 +1,59 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
+public class Pessoa {
+    // Atributos da classe Pessoa
+    private String nomeCompleto;
+    private double altura;
+    private LocalDate dataNascimento;
+    private String email;
+
+    // Construtor da classe Pessoa
+    public Pessoa(String nomeCompleto, double altura, String dataNascimento) {
+        this.nomeCompleto = nomeCompleto; // Inicializa o atributo nomeCompleto
+        this.altura = altura; // Inicializa o atributo altura
+        setDataNascimento(dataNascimento); // Define e valida a data de nascimento
+        this.email = criarEmail(nomeCompleto); // Cria o email baseado no nome completo
+    }
+
+    // Método para definir e validar a data de nascimento
+    private void setDataNascimento(String dataNascimento) {
+        try {
+            // Converte a string para LocalDate usando o formato dd/MM/yyyy
+            LocalDate data = LocalDate.parse(dataNascimento, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            // Verifica se a data de nascimento não é posterior à data atual
+            if (data.isAfter(LocalDate.now())) {
+                throw new IllegalArgumentException("A data de nascimento não pode ser posterior à data atual.");
+            }
+            this.dataNascimento = data; // Inicializa o atributo dataNascimento
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Formato de data inválido. Use dd/MM/yyyy.");
+        }
+    }
+
+    // Método para criar o email no formato nome.sobrenome@dominio.com
+    private String criarEmail(String nomeCompleto) {
+        String[] partes = nomeCompleto.split(" "); // Divide o nome completo em partes
+        String nome = partes[0].toLowerCase(); // Pega a primeira parte do nome e converte para minúsculas
+        String sobrenome = partes[partes.length - 1].toLowerCase(); // Pega a última parte do nome e converte para minúsculas
+        return nome + "." + sobrenome + "@dominio.com"; // Retorna o email formatado
+    }
+
+    // Método para exibir as informações da pessoa
+    public void exibirInformacoes() {
+        System.out.printf("Nome Completo: %s\nAltura: %.2f\nData de Nascimento: %s\nEmail: %s\n\n",
+                          this.nomeCompleto, this.altura, this.dataNascimento, this.email);
+    }
+
+    // Método principal para testar a classe Pessoa
+    public static void main(String[] args) {
+        // Cria instâncias da classe Pessoa
+        Pessoa pessoa1 = new Pessoa("Abrao Trevizan", 1.85, "12/05/2005");
+        Pessoa pessoa2 = new Pessoa("Tatiana Trevizan", 1.70, "31/11/1985");
+
+        // Exibe as informações das pessoas
+        pessoa1.exibirInformacoes();
+        pessoa2.exibirInformacoes();
+    }
+}
