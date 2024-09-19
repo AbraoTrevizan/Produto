@@ -22,4 +22,4 @@ Versão 1.0
 
 ✒️ Autores:
 
-> Abrão Alves Trevizan - Lista de Exercicios JAVA.
+> Abrão Alves Trevizan - Lista de Exercicios JAVA
